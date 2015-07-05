@@ -17,12 +17,14 @@
 			return $result['result'][0]['message']['chat']['id'];
 		}
 		
+		// https://core.telegram.org/bots/api#sendmessage
 		public function sendMessage($message) 
 		{
 			$chat_id = $this->getChatId();
 			return $this->webRequest($this->_apiUrl.'sendMessage', [
 				'chat_id' => $chat_id, 
 				'text' => $message,
+				'disable_web_page_preview' => 1,
 			]);			
 		}
 
