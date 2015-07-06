@@ -19,3 +19,9 @@ when chat starts script can automaticaly find this chat_id
 8) You should receive a message from your bot
 
 9) Enjoy it :)
+
+-----------------------------------------
+P.S> One more thing that can be useful for you it is example of sending message from the BASH.
+You can find it in: telegram.sh
+It still uses PHP to parse JSON answer, but you can rewrite this functionality with other 
+software which you have on the server (sed, awk, perl, py, etc)
