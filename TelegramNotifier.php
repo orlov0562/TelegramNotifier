@@ -3,9 +3,11 @@
 	class TelegramNotifier {
 		
 		private $_apiUrl;
+		private $_userId;
 		
-		public function __construct($apiKey) {
+		public function __construct($apiKey, $userId) {
 			$this->_apiUrl = 'https://api.telegram.org/bot'.$apiKey.'/';
+			$this->_userId = $userId;
 		}
 
 		public function getChatId() 
@@ -13,8 +15,18 @@
 			$result = $this->webRequest($this->_apiUrl.'getUpdates?offset=0');
 			$result = json_decode($result, true);
 			if (!$result) throw new Exception('JSON decode error');
-			if (empty($result['result'][0]['message']['chat']['id'])) throw new Exception('Can\'t resolve Chat Id');
-			return $result['result'][0]['message']['chat']['id'];
+
+			$chatId = 0;
+			foreach($result['result'] as $res) {
+				if ($res['message']['from']['id']==$this->_userId) {
+					$chatId = $res['message']['chat']['id'];
+					break;
+				}
+			}			
+			
+			if (!$chatId) throw new Exception('Can\'t resolve Chat Id');
+			
+			return $chatId;
 		}
 		
 		// https://core.telegram.org/bots/api#sendmessage
